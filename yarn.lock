@@ -2400,6 +2400,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+next-view-transitions@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/next-view-transitions/-/next-view-transitions-0.3.5.tgz#b2aeb8a5677618db60bd123f63d2a06f15ed13f0"
+  integrity sha512-yP8OPNydLmKpmE94hLurLGEzPsUy1uyl9iSv8oxaC2JwhSXTD86SVwk1NMMQT7Ado4kMENDJ7fNBIXHy3GU/Lg==
+
 next@16.2.7:
   version "16.2.7"
   resolved "https://registry.yarnpkg.com/next/-/next-16.2.7.tgz#c4f9e7f4aff6744afd827f7f9d883ca38a1fb4b0"
