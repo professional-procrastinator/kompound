@@ -5,7 +5,7 @@ export default function WordCard({
 }: {
   wordEnglish?: string;
   wordGerman?: string;
-  status: 0 | 1 | 2 | 3;
+  status: 0 | 1 | 2;
 }) {
   return (
     <div
@@ -14,10 +14,8 @@ export default function WordCard({
           ? "bg-(--background)"
           : status === 1
             ? "bg-gray-500"
-            : status === 2
-              ? "bg-yellow-500"
-              : "bg-green-500"
-      } ${status === 0 ? "border-(--border_lightgrey) border-[0.5px]" : status === 1 ? "border-(--border_grey) border-4" : status === 2 ? "border-(--border_yellow) border-4" : "border-(--border_green) border-4"}`}
+            : "bg-green-500"
+      } ${status === 0 ? "border-[0.5px] border-(--border_lightgrey)" : status === 1 ? "border-4 border-(--border_grey)" : "border-4 border-(--border_green)"}`}
     >
       <div>
         <div>{wordEnglish}</div>

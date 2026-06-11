@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, DM_Serif_Display } from "next/font/google";
+import {
+  Inter_Tight,
+  Geist,
+  Geist_Mono,
+  DM_Serif_Display,
+} from "next/font/google";
 import "./globals.css";
-import { ViewTransitions } from "next-view-transitions";
 import { GameStateProvider } from "@/context/gameState";
+import PageTransition from "@/components/transition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
+const Inter_Tight_ = Inter_Tight({
+  variable: "--font-inter-tight",
+  subsets: ["latin"],
+  weight: "400",
+});
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -31,20 +40,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <GameStateProvider>
-        <html
-          lang="en"
-          className={`${geistSans.variable} ${geistMono.variable} ${DMSerif_Display.variable} h-full antialiased`}
+    <GameStateProvider>
+      <html
+        lang="en"
+        className={`${geistSans.variable} ${Inter_Tight_.variable} ${geistMono.variable} ${DMSerif_Display.variable} h-full antialiased`}
+      >
+        <body
+          className="min-h-full flex flex-col"
+          style={{ viewTransitionName: "page-content" }}
         >
-          <body
-            className="min-h-full flex flex-col"
-            style={{ viewTransitionName: "page-content" }}
-          >
-            {children}
-          </body>
-        </html>
-      </GameStateProvider>
-    </ViewTransitions>
+          {children}
+        </body>
+      </html>
+    </GameStateProvider>
   );
 }

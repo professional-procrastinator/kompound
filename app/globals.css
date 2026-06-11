@@ -4,7 +4,7 @@
   --background: #ffecd2;
   --foreground: #2b251d;
   --borderbrown: #1a1611;
-  --border_lightgrey: #d7d4d4;
+  --border_lightgrey: #e0d0b9;
   --border_grey: #595652;
   --border_yellow: #786f2b;
   --border_green: #2c6536;
@@ -14,6 +14,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-dm-serif-display: var(--font-dm-serif-display);
+  --font-inter-tight: var(--font-inter-tight);
 }
 body {
   background: var(--background);

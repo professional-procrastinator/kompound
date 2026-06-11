@@ -1,6 +1,6 @@
 export const words = [
   {
-    actual: "Birth Control",
+    actual: "Oral Contraceptive",
     german: "Antibabypille",
     cards: ["Anti", "Baby", "Pill"],
     category: "Items",
