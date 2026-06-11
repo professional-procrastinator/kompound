@@ -20,10 +20,15 @@ export default function LandingContent() {
     <motion.div
       animate={{
         opacity: isExiting ? 0 : 1,
-        filter: isExiting ? "blur(10px)" : "blur(0px)",
-        y: isExiting ? 40 : 0,
+        scale: isExiting ? 2.5 : 1,
+        filter: isExiting ? "blur(30px)" : "blur(0px)",
       }}
-      transition={{ duration: 0.3, damping: 10 }}
+      transition={{
+        duration: 1,
+        damping: 10,
+        bounceStiffness: 250,
+        ease: "easeInOut",
+      }}
       className="flex flex-col flex-1 items-center justify-center font-sans"
     >
       <div className="flex flex-row items-center w-full px-[20%]">

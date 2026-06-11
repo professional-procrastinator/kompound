@@ -18,7 +18,7 @@ export default function FloatingInput({
       <motion.div
         className="min-w-full"
         animate={{ y: [0, 4, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
       >
         <input
           type="text"
