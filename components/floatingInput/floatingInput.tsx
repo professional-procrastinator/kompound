@@ -22,7 +22,12 @@ export default function FloatingInput({
       >
         <input
           type="text"
-          placeholder="Start typing to guess.."
+          placeholder={placeholder}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") onEnter?.();
+          }}
           className="border-(--foreground) border-4 rounded-xl px-12 py-8 min-w-full h-25 text-xl"
         />
       </motion.div>

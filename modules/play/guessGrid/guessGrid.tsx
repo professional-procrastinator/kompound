@@ -1,64 +1,94 @@
-import FloatingInput from "@/components/floatingInput/floatingInput";
-import WordCard from "@/components/wordCard/wordCard";
 import { useGameContext } from "@/context/gameState";
-import { useState } from "react";
-import React from "react";
+import { FormEvent, useMemo, useState } from "react";
 
 export default function GuessGrid() {
   const data = useGameContext();
-  const [currentGuessValue, setCurrentGuessValue] = useState<string>("");
+  const [value, setValue] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  if (!data?.guessLength) return null;
+  const rows = useMemo(() => Array.from({ length: 6 }), []);
 
-  const wrapperStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "32px",
-  };
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!value.trim() || submitting) return;
+    setSubmitting(true);
+    const accepted = await data.submitGuess(value);
+    if (accepted) setValue("");
+    setSubmitting(false);
+  }
 
-  const rowStyle: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: `repeat(${data.guessLength}, minmax(0, 1fr))`,
-    columnGap: "15px",
-    position: "relative",
-  };
+  async function shareResult() {
+    if (!data.puzzle) return;
+    const score = data.won ? data.guesses.length : "X";
+    const marks = data.guesses.map((guess) => (guess.correct ? "🟩" : "⬜")).join("");
+    const text = `Kompound #${data.puzzle.number} ${score}/6\n${marks}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Kompound", text });
+      } else {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1800);
+      }
+    } catch {
+      // Closing the native share sheet is not an error the player needs to see.
+    }
+  }
 
   return (
-    <div style={wrapperStyle}>
-      {Array.from({ length: 6 }).map((_, rowIndex) => (
-        <div
-          key={rowIndex}
-          style={{
-            ...rowStyle,
-            zIndex: rowIndex === data.numGuesses ? 50 : 1,
-          }}
-        >
-          {Array.from({ length: data.guessLength }).map((_, colIndex) => (
-            <div key={colIndex} style={{ minWidth: "100%" }}>
-              <WordCard status={0} />
-            </div>
-          ))}
+    <div className="guess-grid">
+      {rows.map((_, rowIndex) => {
+        const guess = data.guesses[rowIndex];
+        const active = !data.finished && rowIndex === data.guesses.length;
 
-          {rowIndex === data.numGuesses ? (
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-              <FloatingInput
-                placeholder="Start typing to guess.."
-                value={currentGuessValue}
-                setValue={setCurrentGuessValue}
-              />
-            </div>
-          ) : null}
+        if (active) {
+          return (
+            <form className="guess-row active-row" onSubmit={onSubmit} key={rowIndex}>
+              <label htmlFor="guess-input">Your guess</label>
+              <div className="guess-input-wrap">
+                <input
+                  id="guess-input"
+                  value={value}
+                  onChange={(event) => setValue(event.target.value)}
+                  placeholder="Type in German…"
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  maxLength={48}
+                  autoFocus
+                />
+                <button type="submit" disabled={!value.trim() || submitting} aria-label="Submit guess">
+                  {submitting ? "…" : "→"}
+                </button>
+              </div>
+            </form>
+          );
+        }
+
+        return (
+          <div className={`guess-row ${guess ? (guess.correct ? "correct-row" : "wrong-row") : "empty-row"}`} key={rowIndex}>
+            <span>{guess?.value ?? `Attempt ${rowIndex + 1}`}</span>
+            <small>{guess ? (guess.correct ? "Richtig" : "Not quite") : ""}</small>
+          </div>
+        );
+      })}
+
+      {data.error ? <p className="form-error" role="alert">{data.error}</p> : null}
+
+      {data.finished ? (
+        <div className={`result-card ${data.won ? "win-result" : "loss-result"}`}>
+          <p className="eyebrow">{data.won ? "Sehr gut!" : "Aufgelöst"}</p>
+          <h2>{data.answer}</h2>
+          <p>
+            {data.puzzle?.cards.join(" + ")} = {data.puzzle?.actual}
+          </p>
+          <button className="share-button" onClick={shareResult}>
+            {copied ? "Copied!" : "Share result"}
+          </button>
+          <small>Come back tomorrow for another word.</small>
         </div>
-      ))}
-
-      {/* Your test button */}
-      <div
-        onClick={() => {
-          data.setNumGuesses(data.numGuesses + 1);
-        }}
-      >
-        Badhao
-      </div>
+      ) : null}
     </div>
   );
 }
