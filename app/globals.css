@@ -1,53 +1,157 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffecd2;
-  --foreground: #2b251d;
-  --borderbrown: #1a1611;
-  --border_lightgrey: #e0d0b9;
-  --border_grey: #595652;
-  --border_yellow: #786f2b;
-  --border_green: #2c6536;
+  --paper: #e8eef0;
+  --paper-deep: #d9e3e6;
+  --ink: #18303d;
+  --ink-soft: #526b76;
+  --blue: #275dad;
+  --yellow: #f4be41;
+  --red: #e45b3f;
+  --mint: #7bc8a4;
+  --white: #fffdf8;
+  --line: rgba(24, 48, 61, 0.2);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter-tight);
   --font-mono: var(--font-geist-mono);
-  --font-dm-serif-display: var(--font-dm-serif-display);
-  --font-inter-tight: var(--font-inter-tight);
-}
-body {
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-/* 1. Define the slide keyframes (No opacity changes so it doesn't fade!) */
-@keyframes slide-out-down {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100vh);
-  }
+  --font-serif: var(--font-dm-serif-display);
 }
 
-@keyframes slide-in-from-top {
-  from {
-    transform: translateY(-100vh);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { min-height: 100vh; margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-inter-tight), sans-serif; }
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 
-/* 2. Target the root transition and kill the default browser cross-fade */
-::view-transition-old(root) {
-  animation: slide-out-down 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  /* This line is crucial! It stops the weird glowing "blur" effect */
-  mix-blend-mode: normal;
+.landing-shell, .play-shell {
+  min-height: 100vh;
+  background: linear-gradient(rgba(24,48,61,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(24,48,61,.035) 1px, transparent 1px), var(--paper);
+  background-size: 32px 32px;
 }
+.site-header { width: min(1180px, calc(100% - 48px)); min-height: 88px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.wordmark { font-size: 1.35rem; font-weight: 800; letter-spacing: -.06em; }
+.wordmark span { display: inline-grid; width: .78em; height: .78em; margin: 0 .04em; place-items: center; color: transparent; border-radius: 50%; background: var(--red); vertical-align: .02em; }
+.header-link, .text-button { color: var(--ink-soft); font-weight: 600; border: 0; background: transparent; cursor: pointer; }
+.header-link:hover, .text-button:hover { color: var(--ink); }
 
-::view-transition-new(root) {
-  animation: slide-in-from-top 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  /* This line is crucial! It stops the weird glowing "blur" effect */
-  mix-blend-mode: normal;
+.hero { width: min(1180px, calc(100% - 48px)); min-height: 670px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,1.05fr) minmax(400px,.95fr); gap: 7vw; align-items: center; }
+.eyebrow { margin: 0 0 18px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.hero h1 { max-width: 720px; margin: 0; font-size: clamp(3.6rem,6.6vw,6.6rem); font-weight: 800; letter-spacing: -.075em; line-height: .88; }
+.hero-intro { max-width: 600px; margin: 32px 0 0; color: var(--ink-soft); font-size: clamp(1.08rem,1.5vw,1.28rem); line-height: 1.55; }
+.hero-actions { margin-top: 36px; display: flex; align-items: center; gap: 22px; color: var(--ink-soft); font-size: .9rem; }
+.primary-button, .secondary-button, .share-button { min-height: 54px; padding: 0 22px; display: inline-flex; align-items: center; justify-content: center; gap: 24px; color: var(--white); border: 2px solid var(--ink); border-radius: 4px; background: var(--ink); box-shadow: 5px 5px 0 var(--yellow); font-weight: 700; cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease; }
+.primary-button:hover, .share-button:hover { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--yellow); }
+.compound-demo { position: relative; padding: 20px; transform: rotate(1.5deg); border: 1px solid var(--line); border-radius: 8px; background: rgba(255,253,248,.58); }
+.demo-label { margin-bottom: 14px; color: var(--ink-soft); font-family: var(--font-geist-mono), monospace; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+.demo-cards { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
+.demo-card { aspect-ratio: 1.06; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid var(--ink); border-radius: 4px; box-shadow: 5px 5px 0 var(--ink); }
+.demo-card small { font-family: var(--font-geist-mono), monospace; font-size: .72rem; }
+.demo-card strong { font-size: clamp(1.6rem,3vw,3rem); letter-spacing: -.06em; }
+.demo-card-yellow { background: var(--yellow); }
+.demo-card-red { color: var(--white); background: var(--red); }
+.join-mark { font-size: 1.6rem; font-weight: 800; }
+.demo-result { margin: 22px 5px 3px; display: flex; align-items: baseline; justify-content: space-between; }
+.demo-result span { font-family: var(--font-dm-serif-display), serif; font-size: 2.25rem; }
+.demo-result strong { color: var(--ink-soft); font-family: var(--font-geist-mono), monospace; font-size: .72rem; text-transform: uppercase; }
+
+.how-to { padding: 86px max(24px,calc((100vw - 1180px)/2)); display: grid; grid-template-columns: .85fr 1.15fr; gap: 8vw; background: var(--ink); color: var(--white); }
+.how-to .eyebrow { color: var(--yellow); }
+.how-to h2 { margin: 0; max-width: 500px; font-size: clamp(2rem,3.7vw,3.6rem); line-height: 1; letter-spacing: -.055em; }
+.how-to ol { margin: 0; padding: 0; list-style: none; }
+.how-to li { padding: 20px 0; display: grid; grid-template-columns: 48px 1fr; gap: 20px; align-items: start; border-top: 1px solid rgba(255,255,255,.22); }
+.how-to li:last-child { border-bottom: 1px solid rgba(255,255,255,.22); }
+.how-to li span { color: var(--yellow); font-family: var(--font-geist-mono), monospace; font-size: .74rem; }
+.how-to li p { max-width: 510px; margin: 0; font-size: 1.08rem; line-height: 1.45; }
+.site-footer { min-height: 92px; padding: 24px max(24px,calc((100vw - 1180px)/2)); display: flex; justify-content: space-between; align-items: center; color: var(--ink-soft); font-size: .85rem; }
+
+.play-header { min-height: 72px; }
+.play-meta { display: flex; align-items: center; gap: 24px; color: var(--ink-soft); font-family: var(--font-geist-mono), monospace; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.play-meta .text-button { font-family: var(--font-inter-tight), sans-serif; font-size: .82rem; text-transform: none; letter-spacing: 0; }
+.game-layout { width: min(1180px,calc(100% - 48px)); min-height: calc(100vh - 73px); margin: 0 auto; padding: 56px 0; display: grid; grid-template-columns: minmax(300px,.88fr) minmax(410px,1.12fr); gap: clamp(48px,8vw,120px); align-items: center; }
+.clue-panel { min-height: 560px; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 0; }
+.clue-panel h1 { max-width: 620px; margin: 0; font-family: var(--font-dm-serif-display), serif; font-size: clamp(4.2rem,7vw,7.6rem); font-weight: 400; letter-spacing: -.05em; line-height: .88; overflow-wrap: anywhere; }
+.clue-prompt { margin: 20px 0 0; color: var(--ink-soft); font-size: 1.12rem; }
+.literal-clues > p { margin: 0 0 12px; font-family: var(--font-geist-mono), monospace; color: var(--ink-soft); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.literal-clues > small { display: block; margin-top: 12px; color: var(--ink-soft); }
+.literal-card-row { display: flex; gap: 10px; align-items: stretch; }
+.literal-card { width: min(180px,45%); min-width: 0; min-height: 100px; padding: 14px; flex: 1 1 0; display: flex; flex-direction: column; justify-content: space-between; border: 1px dashed rgba(24,48,61,.38); border-radius: 4px; color: var(--ink-soft); background: rgba(255,255,255,.24); }
+.literal-card:nth-child(even).is-visible { color: var(--white); border: 2px solid var(--ink); background: var(--red); box-shadow: 3px 3px 0 var(--ink); }
+.literal-card:nth-child(odd).is-visible { color: var(--ink); border: 2px solid var(--ink); background: var(--yellow); box-shadow: 3px 3px 0 var(--ink); }
+.literal-card span { font-size: 1.45rem; font-weight: 800; letter-spacing: -.035em; }
+.literal-card small { font-family: var(--font-geist-mono), monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .08em; }
+
+.guess-panel { padding: 28px; border: 2px solid var(--ink); border-radius: 7px; background: rgba(255,253,248,.7); box-shadow: 8px 8px 0 var(--ink); }
+.attempt-counter { margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; color: var(--ink-soft); font-family: var(--font-geist-mono), monospace; font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; }
+.attempt-counter strong { color: var(--ink); }
+.guess-grid { position: relative; display: grid; gap: 9px; }
+.guess-row { min-height: 58px; padding: 0 17px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 4px; }
+.guess-row > span { font-size: 1.08rem; font-weight: 700; }
+.guess-row > small { color: var(--ink-soft); font-family: var(--font-geist-mono), monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .06em; }
+.empty-row { color: rgba(24,48,61,.34); background: rgba(255,255,255,.18); }
+.wrong-row { border-color: rgba(228,91,63,.46); background: rgba(228,91,63,.09); }
+.correct-row { border: 2px solid var(--ink); background: var(--mint); box-shadow: 3px 3px 0 var(--ink); }
+.active-row { min-height: 79px; padding: 10px 12px; display: block; border: 2px solid var(--blue); background: var(--white); box-shadow: 3px 3px 0 var(--blue); }
+.active-row label { display: block; margin: 0 0 5px 3px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .6rem; text-transform: uppercase; letter-spacing: .08em; }
+.guess-input-wrap { display: flex; align-items: center; gap: 8px; }
+.guess-input-wrap input { min-width: 0; flex: 1; padding: 5px 3px; color: var(--ink); border: 0; outline: 0; background: transparent; font-size: 1.12rem; font-weight: 700; }
+.guess-input-wrap input::placeholder { color: rgba(24,48,61,.42); }
+.guess-input-wrap button { width: 40px; height: 40px; flex: 0 0 auto; border: 0; border-radius: 3px; color: var(--white); background: var(--blue); font-size: 1.25rem; font-weight: 700; cursor: pointer; }
+.guess-input-wrap button:disabled { opacity: .35; cursor: not-allowed; }
+.form-error { margin: 3px 0 0; color: #a93222; font-size: .84rem; }
+.result-card { margin-top: 12px; padding: 24px; border: 2px solid var(--ink); border-radius: 5px; box-shadow: 4px 4px 0 var(--ink); }
+.win-result { background: var(--mint); }
+.loss-result { background: var(--yellow); }
+.result-card .eyebrow { margin-bottom: 8px; color: var(--ink); }
+.result-card h2 { margin: 0; font-family: var(--font-dm-serif-display), serif; font-size: 2.5rem; font-weight: 400; line-height: 1; overflow-wrap: anywhere; }
+.result-card p { margin: 8px 0 18px; color: rgba(24,48,61,.75); }
+.result-card small { display: block; margin-top: 14px; color: rgba(24,48,61,.68); }
+.share-button { min-height: 45px; padding: 0 18px; box-shadow: 3px 3px 0 var(--red); }
+
+.loading-state { min-height: calc(100vh - 89px); display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--ink-soft); }
+.loader { width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite; }
+.error-state { flex-direction: column; }
+.secondary-button { min-height: 44px; margin-top: 12px; box-shadow: none; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 100; padding: 24px; display: grid; place-items: center; background: rgba(24,48,61,.62); backdrop-filter: blur(4px); }
+.help-modal { position: relative; width: min(480px,100%); padding: 36px; border: 2px solid var(--ink); border-radius: 6px; background: var(--paper); box-shadow: 9px 9px 0 var(--yellow); }
+.help-modal h2 { margin: 0 0 18px; font-size: 2.6rem; letter-spacing: -.055em; }
+.help-modal p:not(.eyebrow) { color: var(--ink-soft); line-height: 1.55; }
+.help-modal .primary-button { margin-top: 12px; }
+.modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border: 0; color: var(--ink); background: transparent; font-size: 1.7rem; cursor: pointer; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 850px) {
+  .hero { min-height: auto; padding: 76px 0 92px; grid-template-columns: 1fr; gap: 64px; }
+  .compound-demo { width: min(520px,100%); }
+  .how-to { grid-template-columns: 1fr; gap: 50px; }
+  .game-layout { padding: 42px 0 64px; grid-template-columns: 1fr; gap: 36px; align-items: start; }
+  .clue-panel { min-height: auto; gap: 48px; padding: 0; }
+  .clue-panel h1 { font-size: clamp(4rem,14vw,7rem); }
+  .guess-panel { padding: 22px; }
+}
+@media (max-width: 560px) {
+  .site-header, .hero, .game-layout { width: min(100% - 28px,1180px); }
+  .site-header { min-height: 68px; }
+  .hero { padding-top: 58px; }
+  .hero h1 { font-size: clamp(3.5rem,17vw,5.1rem); }
+  .hero-actions { align-items: flex-start; flex-direction: column; }
+  .demo-card { padding: 12px; }
+  .demo-card strong { font-size: 1.45rem; }
+  .join-mark { font-size: 1.1rem; }
+  .site-footer { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .play-meta > span { display: none; }
+  .game-layout { padding-top: 32px; }
+  .clue-panel { gap: 36px; }
+  .clue-panel h1 { font-size: clamp(3.5rem,17vw,5.4rem); }
+  .guess-panel { padding: 15px; box-shadow: 5px 5px 0 var(--ink); }
+  .guess-row { min-height: 53px; }
+  .active-row { min-height: 75px; }
+  .result-card { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

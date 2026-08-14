@@ -1,61 +1,82 @@
 "use client";
-import Button from "@/components/button/button";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function LandingContent() {
-  const router = useRouter();
-  const [isExiting, setIsExiting] = useState(false);
-
-  const delayClick = () => {
-    setIsExiting(true);
-
-    setTimeout(() => {
-      router.push("/play");
-    }, 100);
-  };
   return (
-    <motion.div
-      animate={{
-        opacity: isExiting ? 0 : 1,
-        scale: isExiting ? 2.5 : 1,
-        filter: isExiting ? "blur(30px)" : "blur(0px)",
-      }}
-      transition={{
-        duration: 1,
-        damping: 10,
-        bounceStiffness: 250,
-        ease: "easeInOut",
-      }}
-      className="flex flex-col flex-1 items-center justify-center font-sans"
-    >
-      <div className="flex flex-row items-center w-full px-[20%]">
-        <div className="flex flex-col gap-4 w-1/2">
-          <div className="text-6xl text-(--foreground) font-extrabold">
-            Kompound
+    <main className="landing-shell">
+      <header className="site-header">
+        <Link className="wordmark" href="/" aria-label="Kompound home">
+          K<span>o</span>mpound
+        </Link>
+        <Link className="header-link" href="#how-to-play">
+          How to play
+        </Link>
+      </header>
+
+      <section className="hero">
+        <motion.div
+          className="hero-copy"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <p className="eyebrow">A tiny daily German word game</p>
+          <h1>Some words are better in pieces.</h1>
+          <p className="hero-intro">
+            Guess one German compound in six tries. Every miss unlocks a
+            literal clue—and a small window into how German builds meaning.
+          </p>
+          <div className="hero-actions">
+            <Link className="primary-button" href="/play">
+              Play today’s word <span aria-hidden="true">→</span>
+            </Link>
+            <span>New puzzle every day</span>
           </div>
-          <div className="text-gray-700 w-5/6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </div>
-        </div>
-        <div className="flex flex-col items-center gap-3 w-1/2">
-          <Button primary={true} click={delayClick}>
-            <div>Play Today's Kompound</div>
-          </Button>
-          <div className="flex flex-row gap-[5]">
-            <div className="text-gray-600">or learn</div>
-            <div className="hover:underline hover:cursor-pointer">
-              {" "}
-              how to play
+        </motion.div>
+
+        <motion.div
+          className="compound-demo"
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.12, duration: 0.55 }}
+          aria-label="Hand plus shoe makes Handschuh, the German word for glove"
+        >
+          <div className="demo-label">A word, unpacked</div>
+          <div className="demo-cards">
+            <div className="demo-card demo-card-yellow">
+              <small>Hand</small>
+              <strong>HAND</strong>
+            </div>
+            <span className="join-mark" aria-hidden="true">+</span>
+            <div className="demo-card demo-card-red">
+              <small>Shoe</small>
+              <strong>SCHUH</strong>
             </div>
           </div>
+          <div className="demo-result">
+            <span>Handschuh</span>
+            <strong>glove</strong>
+          </div>
+        </motion.div>
+      </section>
+
+      <section className="how-to" id="how-to-play">
+        <div>
+          <p className="eyebrow">How to play</p>
+          <h2>Six guesses. Two useful clues. One satisfying word.</h2>
         </div>
-      </div>
-    </motion.div>
+        <ol>
+          <li><span>01</span><p>Read the English meaning and type the German word.</p></li>
+          <li><span>02</span><p>Each wrong answer reveals a literal piece of the compound.</p></li>
+          <li><span>03</span><p>Find the word in six tries, then share your result.</p></li>
+        </ol>
+      </section>
+
+      <footer className="site-footer">
+        <span>Built for curious people, not perfect German speakers.</span>
+        <span>Viel Glück!</span>
+      </footer>
+    </main>
   );
 }
